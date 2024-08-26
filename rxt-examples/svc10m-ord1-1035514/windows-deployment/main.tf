@@ -72,12 +72,17 @@ data "vsphere_folder" "folder" {
 }
 
 data "vsphere_guest_os_customization" "custom_spec" {
-  name = var.customization_spec_name
+  count = var.use_customization_spec ? 1 : 0
+  name  = var.customization_spec_name
 }
 
 locals {
   interface_count     = length(var.ipv4submask) # Used for Subnet handling
   template_disk_count = var.content_library == null ? length(data.vsphere_virtual_machine.template[0].disks) : 0
+}
+
+locals {
+  adminpass_run_once_commands = var.local_adminpass != null ? [] : var.run_once
 }
 
 resource "vsphere_virtual_machine" "vm" {
@@ -250,7 +255,7 @@ resource "vsphere_virtual_machine" "vm" {
             domain_admin_user     = var.domain_admin_user
             domain_admin_password = var.domain_admin_password
             organization_name     = var.orgname
-            run_once_command_list = var.run_once
+            run_once_command_list = local.adminpass_run_once_commands
             auto_logon            = var.auto_logon
             auto_logon_count      = var.auto_logon_count
             time_zone             = var.time_zone

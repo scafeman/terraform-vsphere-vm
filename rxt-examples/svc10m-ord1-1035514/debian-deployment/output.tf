@@ -20,14 +20,13 @@ output "ip" {
 
 output "customization_spec_type" {
   description = "The type of customization specification."
-  value       = data.vsphere_guest_os_customization.custom_spec.type
+  value       = var.use_customization_spec ? data.vsphere_guest_os_customization.custom_spec[0].type : ""
 }
 
 output "customization_spec_last_update" {
   description = "The last update time of the customization specification."
-  value       = data.vsphere_guest_os_customization.custom_spec.last_update_time
+  value       = var.use_customization_spec ? data.vsphere_guest_os_customization.custom_spec[0].last_update_time : ""
 }
-
 
 output "guest-ip" {
   description = "all the registered ip address of the VM"

@@ -405,7 +405,7 @@ variable "time_zone" {
 variable "run_once" {
   description = "List of Comamnd to run during first logon (Automatic login set to 1)."
   type        = list(string)
-  default     = []
+  default     = null
 }
 
 variable "productkey" {

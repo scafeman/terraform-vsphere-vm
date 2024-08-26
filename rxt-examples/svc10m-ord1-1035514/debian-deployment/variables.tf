@@ -330,6 +330,12 @@ variable "memory_share_count" {
   default     = 81920
 }
 
+variable "guest_id" {
+  description = "Guest ID to override the default for the VM template/OVF"
+  type        = string
+  default     = ""
+}
+
 #Linux Customization Variables
 variable "hw_clock_utc" {
   description = "Tells the operating system that the hardware clock is set to UTC."
@@ -405,7 +411,7 @@ variable "time_zone" {
 variable "run_once" {
   description = "List of Comamnd to run during first logon (Automatic login set to 1)."
   type        = list(string)
-  default     = []
+  default     = null
 }
 
 variable "productkey" {

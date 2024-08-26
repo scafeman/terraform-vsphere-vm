@@ -81,10 +81,6 @@ locals {
   template_disk_count = var.content_library == null ? length(data.vsphere_virtual_machine.template[0].disks) : 0
 }
 
-locals {
-  adminpass_run_once_commands = var.local_adminpass != null ? [] : var.run_once
-}
-
 resource "vsphere_virtual_machine" "vm" {
   count      = var.instances
   depends_on = [var.vm_depends_on]
@@ -255,7 +251,7 @@ resource "vsphere_virtual_machine" "vm" {
             domain_admin_user     = var.domain_admin_user
             domain_admin_password = var.domain_admin_password
             organization_name     = var.orgname
-            run_once_command_list = local.adminpass_run_once_commands
+            run_once_command_list = var.run_once
             auto_logon            = var.auto_logon
             auto_logon_count      = var.auto_logon_count
             time_zone             = var.time_zone
